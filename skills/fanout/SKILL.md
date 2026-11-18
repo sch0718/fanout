@@ -47,8 +47,8 @@ description: 이 대화에서 정리된 「고쳐야 할 것들」을 서로 겹
 ## 2. 하위 세션 띄우기
 
 - 둘 이상이면 먼저 `mcp__ccd_session__mark_chapter`로 묶음 제목을 단다.
-- 세션마다 `mcp__ccd_session__start_session`: `initiation: "user_asked"`, `context: "fresh"`, `use_worktree: true`, 다른 저장소면 `cwd`. 호출 바로 앞에 굵은 제목 한 줄과 한 문장 설명을 쓴다.
-- brief는 아래 틀을 채워 쓴다. 이 대화에서 찾은 근거(파일:행, 커밋, 다른 저장소의 참고 구현)를 brief에 직접 적는다. 하위 세션은 이 대화를 모른다.
+- 세션마다 `mcp__ccd_session__start_session`: `initiation: "user_asked"`, `context: "fresh"`, `use_worktree: true`, 다른 저장소면 `cwd`. `context: "fresh"`는 `prompt`와 함께 80자 이상의 `background`가 있어야 하고, 빠지면 호출이 거절된다. 호출 바로 앞에 굵은 제목 한 줄과 한 문장 설명을 쓴다.
+- brief는 아래 틀을 채워 쓴다. `## 배경` 절은 `background`에, `## 할 일`부터 끝까지는 `prompt`에 넣는다. 이 대화에서 찾은 근거(파일:행, 커밋, 다른 저장소의 참고 구현)를 brief에 직접 적는다. 하위 세션은 이 대화를 모른다.
 
 ```markdown
 ## 배경
