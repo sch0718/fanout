@@ -1,6 +1,6 @@
 {
   "name": "fanout",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "대화에서 정리된 고칠 것들을 서로 겹치지 않게 묶어 Claude 데스크톱 앱의 하위 세션에 나눠 맡긴다. 각 세션은 설계·계획 검토, Codex 구현, Opus 검토, cascade-fix 수정, PR 병합까지 끝내고, 메인 세션이 통합 검증과 세션·워크트리 정리를 한다.",
   "author": { "name": "sch0718" },
   "homepage": "https://github.com/sch0718/fanout",
