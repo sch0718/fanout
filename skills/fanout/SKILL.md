@@ -32,11 +32,12 @@ description: 이 대화에서 정리된 「고쳐야 할 것들」을 서로 겹
    - 저장소가 다르면 세션도 다르다(`cwd`로 그 저장소를 준다).
 3. **공유 노트 폴더.** `~/.claude/fanout-notes/<YYYY-MM-DD>-<묶음 이름>/`을 만들고 그 경로를 모든 brief에 적는다. 하위 세션의 인계 메모는 여기에 남긴다.
 4. **사용량 확인.** `mcp__ccd_session_mgmt__get_usage`를 한 번 부른다(지연 로드 도구면 `ToolSearch`로 먼저 불러온다). `plan.status`에 따라:
-   - `ok`: 한도 창(5시간·주간·모델별 주간) 중 하나라도 `percentUsed`가 80 이상이거나, `extraUsage.enabled`이고 `extraUsage.percentUsed`가 90 이상이면 수치와 초기화 시각(`resetsIn`)을 보여 주고 `AskUserQuestion`으로 하나를 고르게 한다.
+   - `ok`: 한도 창(5시간·주간·모델별 주간) 중 하나라도 `percentUsed`가 80 이상이면 수치와 초기화 시각(`resetsIn`)을 보여 주고 `AskUserQuestion`으로 하나를 고르게 한다.
      - 기다리기: 초기화 시각을 알리고 하위 세션을 띄우지 않고 멈춘다.
      - 줄여서 진행: 1단계 세션만 띄우거나 세션을 더 묶어 수를 줄인다. cascade-fix 작업자를 Codex·Cursor로 돌리는 프로필이 있으면 brief에 `--profile <이름>`을 적는다.
      - 그대로 진행.
-     임계값보다 낮으면 묻지 않고 「사용량: 5시간 N% · 주간 N%」 한 줄만 쓴다(추가 사용량이 켜져 있으면 그 %도).
+     임계값보다 낮으면 묻지 않고 「사용량: 5시간 N% · 주간 N%」 한 줄만 쓴다.
+     `extraUsage`(추가 사용량의 월 한도)는 판단에도 한 줄 보고에도 쓰지 않는다. 팀 플랜에서는 이 값이 개인 사용량과 맞지 않게 나온다.
    - `unavailable`: 「사용량 확인 못 함」 한 줄만 쓰고 진행한다.
    - `not_applicable`: 아무것도 쓰지 않고 진행한다.
    데스크톱 앱에서 시작한 실행은 구독자 API 크레딧이 아니라 Claude Code 사용으로 잡히므로 API 크레딧은 선택지에 넣지 않는다.
@@ -47,8 +48,8 @@ description: 이 대화에서 정리된 「고쳐야 할 것들」을 서로 겹
 ## 2. 하위 세션 띄우기
 
 - 둘 이상이면 먼저 `mcp__ccd_session__mark_chapter`로 묶음 제목을 단다.
-- 세션마다 `mcp__ccd_session__start_session`: `initiation: "user_asked"`, `context: "fresh"`, `use_worktree: true`, 다른 저장소면 `cwd`. 호출 바로 앞에 굵은 제목 한 줄과 한 문장 설명을 쓴다.
-- brief는 아래 틀을 채워 쓴다. 이 대화에서 찾은 근거(파일:행, 커밋, 다른 저장소의 참고 구현)를 brief에 직접 적는다. 하위 세션은 이 대화를 모른다.
+- 세션마다 `mcp__ccd_session__start_session`: `initiation: "user_asked"`, `context: "fresh"`, `use_worktree: true`, 다른 저장소면 `cwd`. `context: "fresh"`는 `prompt`와 함께 80자 이상의 `background`가 있어야 하고, 빠지면 호출이 거절된다. 호출 바로 앞에 굵은 제목 한 줄과 한 문장 설명을 쓴다.
+- brief는 아래 틀을 채워 쓴다. `## 배경` 절은 `background`에, `## 할 일`부터 끝까지는 `prompt`에 넣는다. 이 대화에서 찾은 근거(파일:행, 커밋, 다른 저장소의 참고 구현)를 brief에 직접 적는다. 하위 세션은 이 대화를 모른다.
 
 ```markdown
 ## 배경

@@ -6,7 +6,7 @@
     {
       "name": "fanout",
       "source": "./",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "대화에서 정리된 고칠 것들을 하위 세션으로 나눠 설계 검토·구현·리뷰·cascade-fix 수정·PR 병합까지 맡기고, 끝나면 통합 검증과 정리를 하는 스킬.",
       "category": "development"
     }
